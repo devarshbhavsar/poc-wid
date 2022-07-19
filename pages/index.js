@@ -90,10 +90,12 @@ export default function Home() {
 
     const response = await fetch('/api/message', {
       method: 'POST',
-      body: JSON.stringify(richMessage),
       headers: {
-        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin" : "*", 
+        "Access-Control-Allow-Credentials" : true,
+        "Content-Type": "application/json; charset=utf8"
       },
+      body: JSON.stringify(richMessage)
     });
     const data = await response.json()
     console.log(data);
