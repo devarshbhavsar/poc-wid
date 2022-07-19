@@ -88,7 +88,7 @@ export default function Home() {
       })
     }
 
-    const response = await fetch('https://poc-widget.vercel.app/api/message', {
+    const response = await fetch('/api/message', {
       method: 'POST',
       body: JSON.stringify(richMessage),
       headers: {
@@ -295,6 +295,9 @@ export default function Home() {
                       <li className="nav-item">
                         <button className="nav-link" data-bs-toggle="pill" href={"#details-"+car.vin}>Details</button>
                       </li>
+                      <li className="nav-item">
+                        <button className="nav-link" data-bs-toggle="pill" href={"#image-"+car.vin}>Image</button>
+                      </li>
                     </ul>
                   </nav>
                 </div>
@@ -367,7 +370,7 @@ export default function Home() {
                     <p>{car.details.join(", ")}</p>
                   </div>
 
-                  <div id={"image-"+car.vin} hidden={true}>
+                  <div className="tab-pane" id={"image-"+car.vin}>
                     <picture>
                       <source srcSet={car.images[0]} type="image/webp" />
                       <img src={car.images[0]} className="card-img-top" alt="" />

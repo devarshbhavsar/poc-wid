@@ -12,7 +12,7 @@ export default function MessageBox() {
     //}, []);    
 
     const getMessage = async() => {
-        const response = await fetch('https://poc-widget.vercel.app/api/message');
+        const response = await fetch('/api/message');
         message = await response.json();
         // message = data.toString();
     }
