@@ -5,22 +5,20 @@ export default function MessageBox() {
     const [widget, setWidget] = useState(null);
     var message = {};
 
-    //useEffect(() => {
-    //    createMessageBoxWidget().then((widget) => {
-    //    setWidget(widget);
-    //  })
-    //}, []);    
+    useEffect(() => {
+        createMessageBoxWidget().then((widget) => {
+        setWidget(widget);
+      })
+    }, []);    
 
     const getMessage = async() => {
-        const response = await fetch('/api/message');
+        const response = await fetch('https://poc-widget.vercel.app/api/message');
         message = await response.json();
-        // message = data.toString();
     }
-    getMessage();
 
-    function sendCarousel() {
-        //widget.putMessage(message);
-        console.log(JSON.parse(message))
+    async function sendCarousel() {
+        await getMessage();
+        widget.putMessage(JSON.parse(message));
     }
 
     return (

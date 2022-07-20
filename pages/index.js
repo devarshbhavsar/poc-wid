@@ -53,11 +53,22 @@ export default function Home() {
   const [selectedCars, setSelectedCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([...cars]);
 
-  //useEffect(() => {
-  //  createDetailsWidget().then((widget) => {
-  //    setWidget(widget);
-  //  })
-  //}, []);
+  useEffect(() => {
+    createDetailsWidget().then((widget) => {
+      setWidget(widget);
+    })
+  }, []);
+
+  function generateOpenLink(car) {
+    var make = car.make;
+    make = make.replaceAll(' ', '+');
+    var model = car.model;
+    model = model.replaceAll(' ', '+');
+    var trim = car.trim;
+    trim = trim.replaceAll(' ', '+');
+    var link = "https://www.capitalone.com/cars/vehicle-details/" + car.year + "/" + make + "/" + model + "/" + trim + "/" + car.vin;
+    return link;
+  }
 
   const handlePutMessage= async() => {
     var richMessage = {
@@ -76,7 +87,7 @@ export default function Home() {
           "text": "Open link",
           "postback_id": "open_url",
           "user_ids": [],
-          "value": selectedCars[index].images[0]
+          "value": generateOpenLink(selectedCars[index])
         },
         {
           "type": "message",
@@ -87,8 +98,8 @@ export default function Home() {
         }]
       })
     }
-
-    const response = await fetch('/api/message', {
+    
+    const response = await fetch('https://poc-widget.vercel.app/api/message', {
       method: 'POST',
       headers: {
         "Access-Control-Allow-Origin" : "*", 
@@ -97,19 +108,17 @@ export default function Home() {
       },
       body: JSON.stringify(richMessage)
     });
-    const data = await response.json()
-    console.log(data);
   }
 
-  //if(widget === null) {
-  //  return (
-  //    <div className="text-center">
-  //      <div className="spinner-border" role="status">
-  //        <span className="sr-only">Loading...</span>
-  //      </div>
-  //    </div>
-  //  );
-  //}
+  if(widget === null) {
+    return (
+      <div className="text-center">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   function addCar(car) {
     setSelectedCars([...selectedCars, car]);
@@ -261,8 +270,8 @@ export default function Home() {
                 <label htmlFor="f6"> <input type="checkbox" name="feature" value="Third Row Seats" id="f6" />  Third Row Seats</label>
             </div>
 
-            <button type="button" className="btn btn-primary" onClick={filterCars} style={{width:"45%", margin:"5px"}}>Apply Filters</button>
-            <button type="button" className="btn btn-secondary" onClick={resetFilters} style={{width:"45%", margin:"5px"}}>Reset Filters</button>
+            <button type="button" className="btn btn-primary" onClick={filterCars} style={{width:"45%", margin:"5px"}} data-bs-toggle="collapse" data-bs-target="#filters">Apply Filters</button>
+            <button type="button" className="btn btn-secondary" onClick={resetFilters} style={{width:"45%", margin:"5px"}} data-bs-toggle="collapse" data-bs-target="#filters">Reset Filters</button>
           </div>
         </div>
 
